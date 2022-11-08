@@ -17,3 +17,15 @@
       </div>`
   }).join('')
 ```
+
+## filter inline
+```
+const searchKey = $bar.find('input[name="q"]').val();
+if (response.resources.results.collections && response.resources.results.collections.length > 0) {
+  const sameCollection = response.resources.results.collections.filter(collection => collection.title.toLowerCase() == searchKey.toLowerCase());
+
+  if(sameCollection.length > 0) {
+    $bar.find('form').attr('action', sameCollection[0].url);
+  }            
+}
+```
