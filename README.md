@@ -29,3 +29,19 @@ if (response.resources.results.collections && response.resources.results.collect
   }            
 }
 ```
+
+## Search bar - Go to collection page if search term is equal to collection title
+```
+<script>
+  const desktopSearchForm = document.querySelector('.desktop-search-form'),
+        inputElement = desktopSearchForm.querySelector('input[name="q"]');
+  inputElement.addEventListener('keyup', () => {
+    const resultCollection = window.collectionsList.filter((collection) => collection.title.toLowerCase() == inputElement.value.toLowerCase());
+    if(resultCollection.length > 0) {
+      desktopSearchForm.action = resultCollection[0].handle
+    } else {
+      desktopSearchForm.action = '/search'
+    }
+  });
+</script>
+```
