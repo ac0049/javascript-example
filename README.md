@@ -45,3 +45,23 @@ if (response.resources.results.collections && response.resources.results.collect
   });
 </script>
 ```
+
+## fetch 
+```
+//get method
+
+fetch('/cart.js')
+.then(res => res.json())
+.then(res => console.log(res,'test'))
+
+// async and await
+window.addEventListener('load', async () => {
+    const api = await fetch('/cart.js');
+    const res = await api.json();
+    console.log('res', res);
+})
+
+const test = async () => {
+    
+}
+```
