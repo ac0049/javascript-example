@@ -53,6 +53,7 @@ if (response.resources.results.collections && response.resources.results.collect
 fetch('/cart.js')
 .then(res => res.json())
 .then(res => console.log(res,'test'))
+.catch(issue => console.log(issue))
 
 // async and await
 window.addEventListener('load', async () => {
