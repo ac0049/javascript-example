@@ -1,0 +1,15 @@
+<script>
+  window.addEventListener('scroll', () => {
+    const header = document.querySelector('.header--root');
+
+    header && header.classList.toggle('sticky', window.scrollY > 0);
+  });
+</script>
+
+<style>
+  header.sticky {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+  }
+</style>
