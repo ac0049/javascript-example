@@ -1,5 +1,11 @@
 # javascript-example
 
+## Can I update window.location.hash without having the web page scroll?
+```
+history.pushState(null,null,'#hashexample');
+https://stackoverflow.com/questions/645202/can-i-update-window-location-hash-without-having-the-web-page-scroll
+```
+
 ## sticky header
 stick-header.html
 
