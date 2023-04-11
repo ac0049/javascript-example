@@ -1,0 +1,88 @@
+<!-- Blog tags filter -->
+<div class="blog-filter">
+  <aside>
+  {%- if section.settings.blog_show_tags -%}
+    <ul class="tc">
+        {%- for tag in blog.all_tags -%}
+         <li class="bttn bttn--secondary bttn--inline mt4 btn btn--tertiary btn--small">
+            <a href="/blogs/{{ blog.handle }}/tagged/{{ tag | handleize }}" data-tag={{ tag | handleize }}>{{ tag }}</a>
+         </li>
+        {%- endfor -%}      
+    </ul>
+  {%- endif -%}
+</aside>
+</div>
+<!-- Blog Items -->
+<div class="blog-list-view">
+  {% for article in blog.articles %}
+    ...
+  {% endfor %}
+</div>
+<!-- CSS for loader -->
+<style>
+  #loading-bar-spinner {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      z-index: 99999;
+      left: 0;
+      top: 0;
+      background-color: rgba(255, 255, 255, 0.5);
+  }
+  #loading-bar-spinner .spinner-icon {
+      width: 40px;
+      height: 40px;
+      border: solid 4px transparent;
+      border-top-color: #000000 !important;
+      border-left-color: #000000 !important;
+      border-radius: 50%;
+      animation: loading-bar-spinner 350ms linear infinite;
+  }
+  @keyframes loading-bar-spinner {
+      0% {
+          transform: rotate(0deg);
+          transform: rotate(0deg);
+      }
+
+      100% {
+          transform: rotate(360deg);
+          transform: rotate(360deg);
+      }
+  }
+</style>
+
+<script>
+  window.addEventListener('load', ()=>{
+    document.querySelectorAll('.blog-filter a').forEach((tag) => {
+      tag.addEventListener('click', async (e)=>{
+        e.preventDefault();
+        
+        e.target.classList.toggle('active');
+        document.querySelector('.blog-list-view').insertAdjacentHTML('beforeend', '<div id="loading-bar-spinner"><span class="spinner-icon"></span></div>');
+        let tagVal = '/';
+        document.querySelectorAll('.blog-filter a.active').forEach((activeTag) => {
+          tagVal += activeTag.dataset.tag + '+' ;
+        });
+        
+        let blogUrl;
+        if(tagVal == '/' ) {
+          blogUrl = '{{ blog.url }}';  
+        } else {
+          blogUrl = '{{ blog.url }}' + '/tagged' + tagVal.replace(/.$/, "");
+        }
+        
+        console.log(blogUrl);
+        const api = await fetch(blogUrl)
+        const response = await api.text();
+        const parser = new DOMParser().parseFromString(response, "text/html");
+        document.querySelector('.blog-list-view').innerHTML = parser.querySelector('.blog-list-view').innerHTML;
+        window.history.pushState(null, null, blogUrl);
+        return false;
+      })
+    })
+  })
+</script>
